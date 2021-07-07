@@ -1,5 +1,6 @@
-d3.json('./data/samples.json').then(data=>{
-    console.log(data)});
+d3.json("./data/samples.json").then(data=>{
+    console.log(data);
+});
 
 var select = d3.select("#selDataset");
 var demTable = d3.select("#sample-metadata");
