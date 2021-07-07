@@ -1,4 +1,4 @@
-d3.json("/data/samples.json").then(data=>{
+d3.json("./data/samples.json").then(data=>{
     console.log(data)});
 
 var select = d3.select("#selDataset");
@@ -11,7 +11,7 @@ function init() {
 
     resetData();
 
-    d3.json("/data/samples.json").then((data=>{
+    d3.json("./data/samples.json").then((data=>{
 
         data.names.forEach((name => {
             var option = select.append("option");
@@ -36,7 +36,7 @@ function resetData() {
 }; 
 
 function Charts(id) {
-    d3.json("/data/samples.json").then((data => {
+    d3.json("./data/samples.json").then((data => {
 
         var metData = data.metadata.filter(participant => participant.id == id)[0];
         
