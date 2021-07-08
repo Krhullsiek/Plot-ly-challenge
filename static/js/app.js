@@ -1,11 +1,11 @@
 d3.json("./data/samples.json").then(data=>{
     console.log(data)});
 
+var select = d3.select("#selDataset");
 
 function init() {
 
-    change();
-    var select = d3.select("#selDataset");
+    Change();
     
     d3.json("./data/samples.json").then((data=>{
 
@@ -23,7 +23,7 @@ function init() {
 
 }
 
-function change() {
+function Change() {
 
     demTable.html("");
     bar.html("");
