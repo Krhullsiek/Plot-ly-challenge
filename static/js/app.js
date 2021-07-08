@@ -1,16 +1,12 @@
 d3.json("./data/samples.json").then(data=>{
     console.log(data)});
 
-var select = d3.select("#selDataset");
-var demTable = d3.select("#sample-metadata");
-var bar = d3.select("#bar");
-var bubble = d3.select("#bubble");
-
 
 function init() {
 
-    resetData();
-
+    change();
+    var select = d3.select("#selDataset");
+    
     d3.json("./data/samples.json").then((data=>{
 
         data.names.forEach((name => {
@@ -27,7 +23,7 @@ function init() {
 
 }
 
-function resetData() {
+function change() {
 
     demTable.html("");
     bar.html("");
@@ -35,15 +31,19 @@ function resetData() {
 
 }; 
 
+var demTable = d3.select("#sample-metadata");
+var bar = d3.select("#bar");
+var bubble = d3.select("#bubble");
+
 function Charts(id) {
     d3.json("./data/samples.json").then((data => {
 
-        var metData = data.metadata.filter(participant => participant.id == id)[0];
+        var metData = data.metadata.filter(sampleID => sampleID.id == id)[0];
         
         Object.entries(metData).forEach(([key, value]) => {
-            var newList = demTable.append("ul");
-            var listItem = newList.append("li");
-            listItem.text(`${key}: ${value}`);
+            var List = demTable.append("ul");
+            var Item = List.append("li");
+            Item.text(`${key}: ${value}`);
         
 
     });
@@ -80,24 +80,21 @@ function Charts(id) {
 
 
 
-    var barChart={
+    var barData=[{
+
         y:topIdLabel,
         x:topValues,
         text:topLabels,
         type:"bar",
         orientation:"h"
-    };
+    }];
 
-    var barData = [barChart]
 
     var barLayout = {
         height: 500,
         width: 900,
         title: {
             text: "Top 10 OTUs",
-            font: {
-                size:14,
-            }
         },
         xaxis: {
             title: "Sample_Values",
@@ -114,8 +111,9 @@ function Charts(id) {
     var bubble = d3.select("bubble");
 
 
-    var bubbleChart = {
-        margin: {t:0},
+    var bubbleData= {
+        height: 500,
+        width: 1200,
         hovermode: "closest",
         xaxis: {
             title: "OTU_IDS",
@@ -125,9 +123,7 @@ function Charts(id) {
         },
     };
 
-    var bubbleLabels = {
-        height: 500,
-        width: 900,
+    var bubbleLabels = [{
         x:otuids[0],
         y:svalues[0],
         text: otulabels[0],
@@ -135,17 +131,16 @@ function Charts(id) {
         marker: {
             color:otuids[0],
             size:svalues[0],}
-        }
+        }]
     ;
 
-    bubbleData = [bubbleLabels]
 
-    Plotly.newPlot("bubble", bubbleData, bubbleChart);
+    Plotly.newPlot("bubble", bubbleLabels, bubbleData);
     }))};
 
 function optionChanged(id) {
     
-    resetData();
+    Change();
 
     Charts(id);
 
