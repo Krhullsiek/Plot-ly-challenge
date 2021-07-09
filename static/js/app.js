@@ -1,7 +1,13 @@
+// import json data //
+
 d3.json("./data/samples.json").then(data=>{
     console.log(data)});
 
+// match to selDataset tag in html//
+
 var select = d3.select("#selDataset");
+
+// create function for grabbing specific data to be used for charts//
 
 function init() {
 
@@ -23,6 +29,8 @@ function init() {
 
 }
 
+// create function to clear data when a change is made in the ID selection //
+
 function Change() {
 
     demTable.html("");
@@ -31,9 +39,13 @@ function Change() {
 
 }; 
 
+// select corresponding tags to html for the graphs and table //
+
 var demTable = d3.select("#sample-metadata");
 var bar = d3.select("#bar");
 var bubble = d3.select("#bubble");
+
+// create a function to populate charts and create each graph based on the ID selected //
 
 function Charts(id) {
     d3.json("./data/samples.json").then((data => {
@@ -53,7 +65,7 @@ function Charts(id) {
     var otuids = [];
     var otulabels = [];
     var svalues = [];
-
+    
     Object.entries(sample).forEach(([key, value]) => {
 
         switch (key) {
@@ -72,6 +84,8 @@ function Charts(id) {
 
     });
 
+        // for bar graph we only want top 10 //
+        
     var topIds = otuids[0].slice(0,10).reverse();
     var topLabels = otulabels[0].slice(0,10).reverse();
     var topValues = svalues[0].slice(0,10).reverse();
@@ -79,7 +93,8 @@ function Charts(id) {
     var topIdLabel = topIds.map(otuID => "OTU_ID" + " " + otuID);
 
 
-
+// create the bar graph //
+        
     var barData=[{
 
         y:topIdLabel,
@@ -110,7 +125,8 @@ function Charts(id) {
 
     var bubble = d3.select("bubble");
 
-
+    // create the bubble chart //
+        
     var bubbleData= {
         height: 500,
         width: 1200,
@@ -137,6 +153,8 @@ function Charts(id) {
 
     Plotly.newPlot("bubble", bubbleLabels, bubbleData);
     }))};
+
+// create the function for when the id option changes //
 
 function optionChanged(id) {
     
